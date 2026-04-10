@@ -1,16 +1,69 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <title>DevOps App</title>
-    <style>body { font-family: sans-serif; background: #f4f4f4; text-align: center; padding: 50px; }</style>
+    <meta charset="UTF-8">
+    <title>DevOps App - ITLA</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fdfdfd; text-align: center; padding: 50px; color: #333; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: inline-block; }
+        h1 { color: #007bff; margin-bottom: 25px; }
+        
+        /* ESTILOS PARA EL BADGE BONITO */
+        .version-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #f1f3f5;
+            color: #666;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            border: 1px solid #e1e4e8;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .version-badge:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .version-badge-dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            background-color: #28a745; /* Verde para 'Live' */
+            display: inline-block;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>¡App Desplegada con DevOps!</h1>
-    <div id="status">Cargando estado...</div>
+    <div class="container">
+        <h1>¡App Desplegada con DevOps! 🚀</h1>
+        <p>Esta aplicación es gestionada por un pipeline completo de CI/CD.</p>
+        <p>Prueba los endpoints de monitoreo en /health y /metrics.</p>
+    </div>
+
+    <div class="version-badge">
+        <span class="version-badge-dot"></span>
+        <span>Último Despliegue: <strong id="deploy-version">Cargando...</strong></span>
+    </div>
+
     <script>
-        fetch('/health').then(r => r.text()).then(t => {
-            document.getElementById('status').innerText = "Estado del servidor: " + t;
-        });
+        // Lógica para obtener la versión dinámica
+        fetch('/api/version')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('deploy-version').innerText = data.version;
+            })
+            .catch(error => {
+                console.error('Error cargando versión:', error);
+                document.getElementById('deploy-version').innerText = 'Error';
+            });
     </script>
 </body>
 </html>
