@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>DevOps App</title>
+    <style>body { font-family: sans-serif; background: #f4f4f4; text-align: center; padding: 50px; }</style>
+</head>
+<body>
+    <h1>¡App Desplegada con DevOps!</h1>
+    <div id="status">Cargando estado...</div>
+    <script>
+        fetch('/health').then(r => r.text()).then(t => {
+            document.getElementById('status').innerText = "Estado del servidor: " + t;
+        });
+    </script>
+</body>
+</html>
