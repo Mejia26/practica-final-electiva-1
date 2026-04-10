@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>¡App Desplegada con DevOps!</h1>
-    <div id="status">Cargando estado...</div>
+    <div id="status">Cargando estado....</div>
     <script>
         fetch('/health').then(r => r.text()).then(t => {
             document.getElementById('status').innerText = "Estado del servidor: " + t;
