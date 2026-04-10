@@ -1,0 +1,51 @@
+name: CI/CD Pipeline DevOps
+
+# El pipeline se activa cada vez que haces "push" a la rama main
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  # TRABAJO 1: Pruebas y Calidad (CI)
+  test-and-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar código del repositorio
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Instalar dependencias
+        run: |
+          cd app
+          npm install
+
+      - name: Ejecutar Pruebas Automatizadas
+        run: |
+          cd app
+          npm test
+
+  # TRABAJO 2: Construcción de Contenedor (Docker)
+  build-docker:
+    needs: test-and-lint # Solo se ejecuta si los tests pasan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v3
+
+      - name: Construir imagen de Docker
+        run: docker build -t mi-app-devops:${{ github.sha }} .
+      
+      - name: Simular subida a Registro (Docker Hub)
+        run: echo "Aquí se subiría la imagen si tuviéramos credenciales configuradas"
+
+  # TRABAJO 3: Simulación de Despliegue (CD)
+  deploy:
+    needs: build-docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Desplegar
+        run: echo "Desplegando la versión ${{ github.sha }} a producción..."
