@@ -48,4 +48,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Desplegar
-        run: echo "Desplegando la versión ${{ github.sha }} a producción..."
+        run: curl -X POST https://api.render.com/deploy/srv-d7cktsvavr4c738vjju0?key=pyUjTVF2kmc
